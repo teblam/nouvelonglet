@@ -1,0 +1,32 @@
+{
+  "manifest_version": 2,
+  "name": "nouvelonglet",
+  "version": "1.0.0",
+  "description": "A modern, customizable new tab page with search, weather, and news",
+  "permissions": [
+    "storage",
+    "https://api.open-meteo.com/*",
+    "https://duckduckgo.com/*",
+    "<all_urls>"
+  ],
+  "optional_permissions": ["geolocation"],
+  "content_security_policy": "script-src 'self'; object-src 'self'; connect-src *;",
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "nouvelonglet@extension.local",
+      "strict_min_version": "142.0",
+      "data_collection_permissions": {
+        "required": [
+          "websiteContent"
+        ],
+        "optional": [
+          "locationInfo"
+        ]
+      }
+    }
+  }
+}
+

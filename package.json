@@ -1,0 +1,27 @@
+{
+  "name": "nouvelonglet",
+  "version": "1.0.0",
+  "description": "Modern Firefox New Tab replacement with Vue 3",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "web-ext lint --source-dir dist",
+    "start:firefox": "web-ext run --source-dir dist"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^7.1.0",
+    "simple-icons": "^16.4.0",
+    "vue": "^3.4.15",
+    "vue-i18n": "^11.2.8"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.3",
+    "autoprefixer": "^10.4.17",
+    "postcss": "^8.4.33",
+    "tailwindcss": "^3.4.1",
+    "vite": "^5.0.11",
+    "web-ext": "^9.2.0"
+  }
+}
