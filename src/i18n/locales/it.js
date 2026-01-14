@@ -61,7 +61,9 @@ export default {
       usernamePlaceholder: 'tuo-nome-utente',
       password: 'Password / Token',
       passwordPlaceholder: 'tua-password-o-token',
-      refresh: 'Aggiorna articoli'
+      refresh: 'Aggiorna articoli',
+      permissionRequired: 'Autorizzazione richiesta per accedere a questo URL',
+      grantPermission: 'Concedi accesso'
     },
     language: {
       title: 'Lingua',

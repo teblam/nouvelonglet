@@ -61,7 +61,9 @@ export default {
       usernamePlaceholder: 'your-username',
       password: 'パスワード / トークン',
       passwordPlaceholder: 'your-password-or-token',
-      refresh: '記事を更新'
+      refresh: '記事を更新',
+      permissionRequired: 'このURLへのアクセス許可が必要です',
+      grantPermission: 'アクセスを許可'
     },
     language: {
       title: '言語',

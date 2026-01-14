@@ -599,6 +599,19 @@
                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                 >
                 <p class="text-xs text-gray-500 mt-1">{{ $t('settings.news.rssHelp') }}</p>
+                <div v-if="rssPermissionNeeded && localSettings.newsRssUrl" class="mt-2 p-3 bg-amber-50 border border-amber-200 rounded-lg">
+                  <p class="text-sm text-amber-700 mb-2">
+                    <i class="fas fa-exclamation-triangle mr-1"></i>
+                    {{ $t('settings.news.permissionRequired') }}
+                  </p>
+                  <button
+                    @click="grantRssPermission"
+                    class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white text-sm font-medium rounded-lg transition-colors"
+                  >
+                    <i class="fas fa-unlock mr-1"></i>
+                    {{ $t('settings.news.grantPermission') }}
+                  </button>
+                </div>
               </div>
 
               <div v-if="localSettings.newsFeedType === 'googleReader'" class="space-y-4">
@@ -611,6 +624,19 @@
                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                   >
                   <p class="text-xs text-gray-500 mt-1">{{ $t('settings.news.apiHelp') }}</p>
+                  <div v-if="readerPermissionNeeded && localSettings.newsApiUrl" class="mt-2 p-3 bg-amber-50 border border-amber-200 rounded-lg">
+                    <p class="text-sm text-amber-700 mb-2">
+                      <i class="fas fa-exclamation-triangle mr-1"></i>
+                      {{ $t('settings.news.permissionRequired') }}
+                    </p>
+                    <button
+                      @click="grantReaderPermission"
+                      class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white text-sm font-medium rounded-lg transition-colors"
+                    >
+                      <i class="fas fa-unlock mr-1"></i>
+                      {{ $t('settings.news.grantPermission') }}
+                    </button>
+                  </div>
                 </div>
 
                 <div>
@@ -695,19 +721,19 @@
                 <ul class="space-y-2">
                   <li class="flex items-center gap-3 text-sm text-slate-600 bg-white p-2 rounded border border-slate-100">
                     <i class="fas fa-code text-slate-500 w-5 text-center"></i>
-                    <a href="https://github.com/username/repo" target="_blank" class="font-medium hover:underline hover:text-blue-600">
+                    <a href="https://github.com/teblam/nouvelonglet" target="_blank" class="font-medium hover:underline hover:text-blue-600">
                       {{ $t('settings.attributions.sourceCode') }}
                     </a>
                   </li>
                   <li class="flex items-center gap-3 text-sm text-slate-600 bg-white p-2 rounded border border-slate-100">
                     <i class="fas fa-star text-yellow-500 w-5 text-center"></i>
-                    <a href="https://github.com/username/repo" target="_blank" class="font-medium hover:underline hover:text-blue-600">
+                    <a href="https://github.com/teblam/nouvelonglet" target="_blank" class="font-medium hover:underline hover:text-blue-600">
                       {{ $t('settings.attributions.starGitHub') }}
                     </a>
                   </li>
                   <li class="flex items-center gap-3 text-sm text-slate-600 bg-white p-2 rounded border border-slate-100">
                     <i class="fas fa-bug text-red-500 w-5 text-center"></i>
-                    <a href="https://github.com/username/repo/issues" target="_blank" class="font-medium hover:underline hover:text-blue-600">
+                    <a href="https://github.com/teblam/nouvelonglet/issues" target="_blank" class="font-medium hover:underline hover:text-blue-600">
                       {{ $t('settings.attributions.reportIssue') }}
                     </a>
                   </li>
@@ -849,7 +875,67 @@ export default {
     const citySearch = ref('');
     const citySuggestions = ref([]);
     const searchingCities = ref(false);
+    const rssPermissionNeeded = ref(false);
+    const readerPermissionNeeded = ref(false);
     let searchTimeout = null;
+
+    const getOriginPattern = (urlString) => {
+      try {
+        const url = new URL(urlString);
+        return `${url.protocol}//${url.host}/*`;
+      } catch {
+        return null;
+      }
+    };
+
+    const checkUrlPermission = async (urlString) => {
+      const pattern = getOriginPattern(urlString);
+      if (!pattern) return true;
+      return browser.permissions.contains({ origins: [pattern] });
+    };
+
+    const requestUrlPermission = async (urlString) => {
+      const pattern = getOriginPattern(urlString);
+      if (!pattern) return false;
+      return browser.permissions.request({ origins: [pattern] });
+    };
+
+    const checkRssPermission = async () => {
+      const url = localSettings.value.newsRssUrl;
+      if (!url) {
+        rssPermissionNeeded.value = false;
+        return;
+      }
+      const hasPermission = await checkUrlPermission(url);
+      rssPermissionNeeded.value = !hasPermission;
+    };
+
+    const checkReaderPermission = async () => {
+      const url = localSettings.value.newsApiUrl;
+      if (!url) {
+        readerPermissionNeeded.value = false;
+        return;
+      }
+      const hasPermission = await checkUrlPermission(url);
+      readerPermissionNeeded.value = !hasPermission;
+    };
+
+    const grantRssPermission = async () => {
+      const granted = await requestUrlPermission(localSettings.value.newsRssUrl);
+      if (granted) {
+        rssPermissionNeeded.value = false;
+      }
+    };
+
+    const grantReaderPermission = async () => {
+      const granted = await requestUrlPermission(localSettings.value.newsApiUrl);
+      if (granted) {
+        readerPermissionNeeded.value = false;
+      }
+    };
+
+    checkRssPermission();
+    checkReaderPermission();
     
     const sectionDraggedIndex = ref(null);
     const sectionDragOverIndex = ref(null);
@@ -1018,6 +1104,9 @@ export default {
       emit('update', { ...newSettings });
     }, { deep: true });
 
+    watch(() => localSettings.value.newsRssUrl, checkRssPermission);
+    watch(() => localSettings.value.newsApiUrl, checkReaderPermission);
+
     const extractVideoThumbnail = (file) => {
       return new Promise((resolve) => {
         const video = document.createElement('video');
@@ -1093,7 +1182,11 @@ export default {
       onSectionDrop,
       onTouchStart,
       onTouchMove,
-      onTouchEnd
+      onTouchEnd,
+      rssPermissionNeeded,
+      readerPermissionNeeded,
+      grantRssPermission,
+      grantReaderPermission
     };
   }
 };

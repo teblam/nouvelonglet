@@ -61,7 +61,9 @@ export default {
       usernamePlaceholder: 'اسم-المستخدم',
       password: 'كلمة المرور / الرمز',
       passwordPlaceholder: 'كلمة-المرور-او-الرمز',
-      refresh: 'تحديث المقالات'
+      refresh: 'تحديث المقالات',
+      permissionRequired: 'مطلوب إذن للوصول إلى هذا الرابط',
+      grantPermission: 'منح الوصول'
     },
     language: {
       title: 'اللغة',

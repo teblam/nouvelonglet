@@ -62,7 +62,9 @@ export default {
       usernamePlaceholder: 'votre-nom-utilisateur',
       password: 'Mot de passe / Jeton',
       passwordPlaceholder: 'votre-mot-de-passe-ou-jeton',
-      refresh: 'Actualiser les articles'
+      refresh: 'Actualiser les articles',
+      permissionRequired: 'Permission requise pour accéder à cette URL',
+      grantPermission: 'Autoriser l\'accès'
     },
     language: {
       title: 'Langue',

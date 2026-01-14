@@ -61,7 +61,9 @@ export default {
       usernamePlaceholder: 'your-username',
       password: '비밀번호 / 토큰',
       passwordPlaceholder: 'your-password-or-token',
-      refresh: '기사 새로고침'
+      refresh: '기사 새로고침',
+      permissionRequired: '이 URL에 액세스하려면 권한이 필요합니다',
+      grantPermission: '액세스 허용'
     },
     language: {
       title: '언어',

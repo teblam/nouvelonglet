@@ -62,7 +62,9 @@ export default {
       usernamePlaceholder: 'kullanici-adiniz',
       password: 'Şifre / Token',
       passwordPlaceholder: 'sifreniz-veya-token',
-      refresh: 'Makaleleri Yenile'
+      refresh: 'Makaleleri Yenile',
+      permissionRequired: 'Bu URL\'ye erişmek için izin gerekli',
+      grantPermission: 'Erişim ver'
     },
     language: {
       title: 'Dil',

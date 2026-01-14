@@ -62,7 +62,9 @@ export default {
       usernamePlaceholder: 'your-username',
       password: '密码 / 令牌',
       passwordPlaceholder: 'your-password-or-token',
-      refresh: '刷新文章'
+      refresh: '刷新文章',
+      permissionRequired: '需要权限才能访问此网址',
+      grantPermission: '授予访问权限'
     },
     language: {
       title: '语言',

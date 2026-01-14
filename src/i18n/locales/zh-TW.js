@@ -62,7 +62,9 @@ export default {
       usernamePlaceholder: 'your-username',
       password: '密碼 / 權杖',
       passwordPlaceholder: 'your-password-or-token',
-      refresh: '重新整理文章'
+      refresh: '重新整理文章',
+      permissionRequired: '需要權限才能存取此網址',
+      grantPermission: '授予存取權限'
     },
     language: {
       title: '語言',

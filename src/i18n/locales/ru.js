@@ -61,7 +61,9 @@ export default {
       usernamePlaceholder: 'ваше-имя-пользователя',
       password: 'Пароль / Токен',
       passwordPlaceholder: 'ваш-пароль-или-токен',
-      refresh: 'Обновить статьи'
+      refresh: 'Обновить статьи',
+      permissionRequired: 'Требуется разрешение для доступа к этому URL',
+      grantPermission: 'Предоставить доступ'
     },
     language: {
       title: 'Язык',
